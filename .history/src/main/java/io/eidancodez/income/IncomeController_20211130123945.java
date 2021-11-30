@@ -16,7 +16,6 @@ public class IncomeController {
 
     @GetMapping
     public Object getAll(){
-        incomeService.getIncomeForToday();
         return incomeService.getAll();
     }
 
@@ -27,6 +26,6 @@ public class IncomeController {
 
     @GetMapping("/today")
     public Object getIncomeForToday(){
-        return incomeService.getIncomeForToday();
+        return null;
     }
 }

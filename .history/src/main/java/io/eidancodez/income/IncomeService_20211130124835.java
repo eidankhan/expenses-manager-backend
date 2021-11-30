@@ -28,11 +28,11 @@ public class IncomeService {
         return income;
     }
 
-    public Object getIncomeForToday(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
+    public void getIncomeForToday(){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");  
         Date date = new Date();  
-        String today = formatter.format(date).toString();
-        return this.incomeData.stream().filter(ele -> ele.getDate().equals(today)).findAny();
+        System.out.println(formatter.format(date));  
+        this.incomeData.stream().filter(ele -> ele.getDate().equals("date")).findAny();
     }
 
 }

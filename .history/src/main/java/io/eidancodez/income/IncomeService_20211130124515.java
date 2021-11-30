@@ -1,6 +1,5 @@
 package io.eidancodez.income;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,11 +27,10 @@ public class IncomeService {
         return income;
     }
 
-    public Object getIncomeForToday(){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
-        Date date = new Date();  
-        String today = formatter.format(date).toString();
-        return this.incomeData.stream().filter(ele -> ele.getDate().equals(today)).findAny();
+    public void getIncomeForToday(){
+        String date = LocalDate.now().toString();
+        System.out.println("Date:"+date);
+        this.incomeData.stream().filter(ele -> ele.getDate().equals("date")).findAny();
     }
 
 }
