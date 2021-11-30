@@ -32,12 +32,11 @@ public class IncomeService {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
         Date date = new Date();  
         String today = formatter.format(date).toString();
-        return this.incomeData.stream().filter(ele -> ele.getDate().equals(today)).allMatch(u -> true);
-        
+        return this.incomeData.stream().filter(ele -> ele.getDate().equals(today)).findAny();
     }
 
-    public Long getTotalIncome(){
-        return this.incomeData.stream().mapToLong(Income:: getAmount).sum();
+    public Integer getTotalIncome(){
+        return this.incomeData.stream().mapToInt(Income:: getAmount).sum();
     }
 
 }

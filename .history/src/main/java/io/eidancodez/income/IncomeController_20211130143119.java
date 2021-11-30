@@ -18,7 +18,7 @@ public class IncomeController {
 
     @GetMapping
     public Object getAll(){
-        System.out.println(incomeService.getTotalIncome());
+        incomeService.getIncomeForToday();
         return incomeService.getAll();
     }
 

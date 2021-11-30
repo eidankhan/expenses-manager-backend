@@ -33,7 +33,7 @@ public class IncomeService {
         Date date = new Date();  
         String today = formatter.format(date).toString();
         return this.incomeData.stream().filter(ele -> ele.getDate().equals(today)).allMatch(u -> true);
-        
+        //return this.incomeData.stream();
     }
 
     public Long getTotalIncome(){

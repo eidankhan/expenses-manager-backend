@@ -32,8 +32,8 @@ public class IncomeService {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");  
         Date date = new Date();  
         String today = formatter.format(date).toString();
-        return this.incomeData.stream().filter(ele -> ele.getDate().equals(today)).allMatch(u -> true);
-        
+        this.incomeData.stream().filter(ele -> ele.getDate().equals(today));
+        return null;
     }
 
     public Long getTotalIncome(){
