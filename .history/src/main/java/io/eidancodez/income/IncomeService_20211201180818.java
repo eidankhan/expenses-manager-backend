@@ -56,15 +56,14 @@ public class IncomeService {
         return transformToDTO(listModel);
     }
     
-    public List<IncomeDTO> getIncomeForThisMonth(){
+    public List<IncomeModel> getIncomeForThisMonth(){
         LocalDate lastDateOfCurrentMonth = currentDate.withDayOfMonth(currentDate.getMonth().length(currentDate.isLeapYear()));
         List<IncomeDTO> listDTO =  OpenCSVFileParser.readCSVFile(filePath);
         List<IncomeModel> listModel = transformToModel(listDTO);
-        listModel = listModel.stream().filter(
+        return listModel.stream().filter(
             ele -> ele.getDate().getMonthValue() == lastDateOfCurrentMonth.getMonthValue() && 
             ele.getDate().getDayOfMonth() <= lastDateOfCurrentMonth.getDayOfMonth()
         ).collect(Collectors.toList());
-        return transformToDTO(listModel);
     }
 
     public Long getTotalIncome(){

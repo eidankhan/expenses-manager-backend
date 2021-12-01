@@ -1,8 +1,6 @@
 package io.eidancodez.income;
 
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +19,6 @@ public class IncomeController {
 
     @GetMapping
     public Object getAll(){
-        List<IncomeDTO> incomeData =  incomeService.getAll();
-        if(incomeData == null)
-            return "NO DATA FOUND";
         return incomeService.getAll();
     }
 

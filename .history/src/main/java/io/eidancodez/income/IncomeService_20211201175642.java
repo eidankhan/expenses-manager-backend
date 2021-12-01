@@ -14,6 +14,7 @@ import io.eidancodez.util.DateConverter;
 @Service
 public class IncomeService {
 
+    private List<IncomeModel> incomeData = new ArrayList<>();
     private LocalDate currentDate;
     private String filePath = "src/main/resources/income.csv";
     private  String[] columns = {"ID", "Date", "Amount", "Payer", "Description"};
@@ -26,66 +27,60 @@ public class IncomeService {
         return OpenCSVFileParser.readCSVFile(filePath);
     }
 
-    public IncomeDTO save(IncomeModel income){
-        List<IncomeDTO> listDTO =  OpenCSVFileParser.readCSVFile(filePath);
+    public IncomeModel save(IncomeModel income){
+        List<IncomeDTO> incomeData =  OpenCSVFileParser.readCSVFile(filePath);
         Integer fileSize = 0;
-        if(listDTO != null)
-            fileSize = listDTO.size();
+        if(incomeData != null)
+            fileSize = incomeData.size();
         Integer id = fileSize+1;
         income.setId(id);
+        this.incomeData.add(income);
         String[] row = {income.getId().toString(), income.getDate().toString(), income.getAmount().toString(), income.getPayer().toString(), income.getDescription().toString()};
         OpenCSVFileParser.writeToCSVFile(columns, row, filePath);
-        return IncomeTransformer.transformToDTO(income);
+        return income;
     }
 
-    public List<IncomeDTO> getIncomeForToday(){
-        List<IncomeDTO> listDTO =  OpenCSVFileParser.readCSVFile(filePath);
-        List<IncomeModel> listModel = transformToModel(listDTO);
-        listModel =  listModel.stream().filter(ele -> ele.getDate().equals(currentDate)).collect(Collectors.toList()); 
-        return transformToDTO(listModel);
+    public List<IncomeModel> getIncomeForToday(){
+        List<IncomeDTO> incomeData =  OpenCSVFileParser.readCSVFile(filePath);
+        List<IncomeModel> data = transformToModel(incomeData);
+        return data.stream().filter(ele -> ele.getDate().equals(currentDate)).collect(Collectors.toList()); 
     }
 
-    public List<IncomeDTO> getIncomeForThisWeek(){
+    public List<IncomeModel> getIncomeForThisWeek(){
         Map<String, LocalDate> currentWeek =  DateConverter.gerrentWeek();
         LocalDate monday = currentWeek.get("mondayOfTheWeek");
         LocalDate sunday = currentWeek.get("sundayOfTheWeek");
 
-        List<IncomeDTO> listDTO =  OpenCSVFileParser.readCSVFile(filePath);
-        List<IncomeModel> listModel = transformToModel(listDTO);
-        listModel = listModel.stream().filter(ele -> ele.getDate().compareTo(monday) >= 0 && ele.getDate().compareTo(sunday) <=0 ).collect(Collectors.toList());
-        return transformToDTO(listModel);
+        List<IncomeDTO> incomeData =  OpenCSVFileParser.readCSVFile(filePath);
+        List<IncomeModel> data = incomeData.stream().map(ele -> { 
+            return IncomeTransformer.transformToModel(ele);
+        }).collect(Collectors.toList());
+        return data.stream().filter(ele -> ele.getDate().compareTo(monday) >= 0 && ele.getDate().compareTo(sunday) <=0 ).collect(Collectors.toList());
     }
     
-    public List<IncomeDTO> getIncomeForThisMonth(){
+    public List<IncomeModel> getIncomeForThisMonth(){
         LocalDate lastDateOfCurrentMonth = currentDate.withDayOfMonth(currentDate.getMonth().length(currentDate.isLeapYear()));
-        List<IncomeDTO> listDTO =  OpenCSVFileParser.readCSVFile(filePath);
-        List<IncomeModel> listModel = transformToModel(listDTO);
-        listModel = listModel.stream().filter(
+        List<IncomeDTO> incomeData =  OpenCSVFileParser.readCSVFile(filePath);
+        List<IncomeModel> data = incomeData.stream().map(ele -> { 
+            return IncomeTransformer.transformToModel(ele);
+        }).collect(Collectors.toList());
+        return this.incomeData.stream().filter(
             ele -> ele.getDate().getMonthValue() == lastDateOfCurrentMonth.getMonthValue() && 
             ele.getDate().getDayOfMonth() <= lastDateOfCurrentMonth.getDayOfMonth()
         ).collect(Collectors.toList());
-        return transformToDTO(listModel);
     }
 
     public Long getTotalIncome(){
-        List<IncomeDTO> listDTO =  OpenCSVFileParser.readCSVFile(filePath);
-        List<IncomeModel> listModel = transformToModel(listDTO);
-        return listModel.stream().mapToLong(IncomeModel:: getAmount).sum();
+        return this.incomeData.stream().mapToLong(IncomeModel:: getAmount).sum();
     }
 
     public List<IncomeDTO> readFile(){
         return OpenCSVFileParser.readCSVFile(filePath);
     }
 
-    private List<IncomeModel> transformToModel(List<IncomeDTO> listDTO){
-        return listDTO.stream().map(ele -> { 
+    private List<IncomeModel> transformToModel(List<IncomeDTO> list){
+        return list.stream().map(ele -> { 
             return IncomeTransformer.transformToModel(ele);
-        }).collect(Collectors.toList());
-    }
-
-    private List<IncomeDTO> transformToDTO(List<IncomeModel> listModel){
-        return listModel.stream().map(ele -> { 
-            return IncomeTransformer.transformToDTO(ele);
         }).collect(Collectors.toList());
     }
 

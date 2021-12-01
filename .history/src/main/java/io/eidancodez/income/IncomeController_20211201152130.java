@@ -1,7 +1,7 @@
 package io.eidancodez.income;
 
-
-import java.util.List;
+import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.eidancodez.util.CSVFileWriter;
+import io.eidancodez.util.DateConverter;
 
 @RestController
 @CrossOrigin
@@ -20,15 +23,15 @@ public class IncomeController {
     private IncomeService incomeService;
 
     @GetMapping
-    public Object getAll(){
-        List<IncomeDTO> incomeData =  incomeService.getAll();
-        if(incomeData == null)
-            return "NO DATA FOUND";
+    public Object getAll() throws IOException{
+        String[] headers = {"id", "name"};
+        String[] row = {"1", "Eidan"};
+        CSVFileWriter.writeToCSVFile(headers, row);
         return incomeService.getAll();
     }
 
     @PostMapping
-    public Object save(@RequestBody IncomeModel income){
+    public Object save(@RequestBody Income income){
         return incomeService.save(income);
     }
 
