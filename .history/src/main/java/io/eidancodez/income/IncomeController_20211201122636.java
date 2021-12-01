@@ -40,9 +40,4 @@ public class IncomeController {
     public Object getIncomeForThisWeek(){
         return incomeService.getIncomeForThisWeek();
     }
-
-    @GetMapping("/thisMonth")
-    public Object getIncomeForThisMonth(){
-        return incomeService.getIncomeForThisMonth();
-    }
 }

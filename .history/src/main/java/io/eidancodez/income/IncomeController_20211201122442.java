@@ -22,12 +22,12 @@ public class IncomeController {
 
     @GetMapping
     public Object getAll(){
-        incomeService.getIncomeForThisMonth();
         return incomeService.getAll();
     }
 
     @PostMapping
     public Object save(@RequestBody Income income){
+        incomeService.getIncomeForThisMonth();
         return incomeService.save(income);
     }
 
@@ -39,10 +39,5 @@ public class IncomeController {
     @GetMapping("/thisWeek")
     public Object getIncomeForThisWeek(){
         return incomeService.getIncomeForThisWeek();
-    }
-
-    @GetMapping("/thisMonth")
-    public Object getIncomeForThisMonth(){
-        return incomeService.getIncomeForThisMonth();
     }
 }

@@ -41,15 +41,7 @@ public class IncomeService {
         LocalDate monday = currentWeek.get("mondayOfTheWeek");
         LocalDate sunday = currentWeek.get("sundayOfTheWeek");
         return this.incomeData.stream().filter(ele -> ele.getDate().compareTo(monday) >= 0 && ele.getDate().compareTo(sunday) <=0 ).collect(Collectors.toList());
-    }
-    
-    public List<Income> getIncomeForThisMonth(){
-        LocalDate lastDateOfCurrentMonth = currentDate.withDayOfMonth(currentDate.getMonth().length(currentDate.isLeapYear()));
-        return this.incomeData.stream().filter(
-            ele -> ele.getDate().getMonthValue() == lastDateOfCurrentMonth.getMonthValue() && 
-            ele.getDate().getDayOfMonth() <= lastDateOfCurrentMonth.getDayOfMonth()
-            ).collect(Collectors.toList());
-    }
+    } 
 
     public Long getTotalIncome(){
         return this.incomeData.stream().mapToLong(Income:: getAmount).sum();

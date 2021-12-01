@@ -3,12 +3,9 @@ package io.eidancodez.income;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-
-import io.eidancodez.util.DateConverter;
 
 @Service
 public class IncomeService {
@@ -37,19 +34,8 @@ public class IncomeService {
     }
 
     public List<Income> getIncomeForThisWeek(){
-        Map<String, LocalDate> currentWeek =  DateConverter.gerrentWeek();
-        LocalDate monday = currentWeek.get("mondayOfTheWeek");
-        LocalDate sunday = currentWeek.get("sundayOfTheWeek");
-        return this.incomeData.stream().filter(ele -> ele.getDate().compareTo(monday) >= 0 && ele.getDate().compareTo(sunday) <=0 ).collect(Collectors.toList());
-    }
-    
-    public List<Income> getIncomeForThisMonth(){
-        LocalDate lastDateOfCurrentMonth = currentDate.withDayOfMonth(currentDate.getMonth().length(currentDate.isLeapYear()));
-        return this.incomeData.stream().filter(
-            ele -> ele.getDate().getMonthValue() == lastDateOfCurrentMonth.getMonthValue() && 
-            ele.getDate().getDayOfMonth() <= lastDateOfCurrentMonth.getDayOfMonth()
-            ).collect(Collectors.toList());
-    }
+        return null;
+    } 
 
     public Long getTotalIncome(){
         return this.incomeData.stream().mapToLong(Income:: getAmount).sum();

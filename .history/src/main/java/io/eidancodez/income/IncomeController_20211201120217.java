@@ -22,7 +22,9 @@ public class IncomeController {
 
     @GetMapping
     public Object getAll(){
-        incomeService.getIncomeForThisMonth();
+        System.out.println("Today:"+ week.get("today"));
+        System.out.println("Monday:"+ week.get("mondayOfTheWeek"));
+        System.out.println("Sunday:"+ week.get("sundayOfTheWeek"));
         return incomeService.getAll();
     }
 
@@ -34,15 +36,5 @@ public class IncomeController {
     @GetMapping("/today")
     public Object getIncomeForToday(){
         return incomeService.getIncomeForToday();
-    }
-
-    @GetMapping("/thisWeek")
-    public Object getIncomeForThisWeek(){
-        return incomeService.getIncomeForThisWeek();
-    }
-
-    @GetMapping("/thisMonth")
-    public Object getIncomeForThisMonth(){
-        return incomeService.getIncomeForThisMonth();
     }
 }

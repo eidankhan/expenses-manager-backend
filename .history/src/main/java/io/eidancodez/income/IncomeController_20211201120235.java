@@ -22,7 +22,6 @@ public class IncomeController {
 
     @GetMapping
     public Object getAll(){
-        incomeService.getIncomeForThisMonth();
         return incomeService.getAll();
     }
 
@@ -34,15 +33,5 @@ public class IncomeController {
     @GetMapping("/today")
     public Object getIncomeForToday(){
         return incomeService.getIncomeForToday();
-    }
-
-    @GetMapping("/thisWeek")
-    public Object getIncomeForThisWeek(){
-        return incomeService.getIncomeForThisWeek();
-    }
-
-    @GetMapping("/thisMonth")
-    public Object getIncomeForThisMonth(){
-        return incomeService.getIncomeForThisMonth();
     }
 }

@@ -45,10 +45,8 @@ public class IncomeService {
     
     public List<Income> getIncomeForThisMonth(){
         LocalDate lastDateOfCurrentMonth = currentDate.withDayOfMonth(currentDate.getMonth().length(currentDate.isLeapYear()));
-        return this.incomeData.stream().filter(
-            ele -> ele.getDate().getMonthValue() == lastDateOfCurrentMonth.getMonthValue() && 
-            ele.getDate().getDayOfMonth() <= lastDateOfCurrentMonth.getDayOfMonth()
-            ).collect(Collectors.toList());
+        System.out.println("lastDateOfCurrentMonth"+lastDateOfCurrentMonth);
+        return this.incomeData.stream().filter(ele -> ele.getDate().isBefore(lastDateOfCurrentMonth)).collect(Collectors.toList());
     }
 
     public Long getTotalIncome(){

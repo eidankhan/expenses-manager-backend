@@ -44,11 +44,10 @@ public class IncomeService {
     }
     
     public List<Income> getIncomeForThisMonth(){
-        LocalDate lastDateOfCurrentMonth = currentDate.withDayOfMonth(currentDate.getMonth().length(currentDate.isLeapYear()));
-        return this.incomeData.stream().filter(
-            ele -> ele.getDate().getMonthValue() == lastDateOfCurrentMonth.getMonthValue() && 
-            ele.getDate().getDayOfMonth() <= lastDateOfCurrentMonth.getDayOfMonth()
-            ).collect(Collectors.toList());
+        LocalDate date = LocalDate.now();
+        date = date.withDayOfMonth(date.getMonth().length(date.isLeapYear()));
+        System.out.println("Date:"+date.lengthOfMonth());
+        return null;
     }
 
     public Long getTotalIncome(){
